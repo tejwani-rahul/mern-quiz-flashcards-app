@@ -1,0 +1,368 @@
+/* ===== Global Styles ===== */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #222831;
+  color: #EEEEEE;
+}
+
+h2, h3, p {
+  margin: 10px 0;
+}
+
+a {
+  color: #00ADB5;
+  text-decoration: none;
+}
+
+button {
+  background-color: #00ADB5;
+  color: #EEEEEE;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #01848b;
+}
+
+input {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #393E46;
+  background-color: #EEEEEE;
+  color: #222831;
+  width: 100%;
+  margin-top: 5px;
+}
+
+/* ===== Navbar ===== */
+.navbar {
+  background-color: #393E46;
+  padding: 15px 30px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.navbar a {
+  color: #EEEEEE;
+  font-weight: bold;
+}
+
+.navbar a:hover {
+  color: #00ADB5;
+}
+
+/* ===== Flashcard Page ===== */
+.flashcard-container {
+  max-width: 800px;
+  margin: auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.flashcard-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+
+.flashcard {
+  background-color: #393E46;
+  color: #EEEEEE;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  padding: 2rem;
+  cursor: pointer;
+  transition: transform 0.4s;
+  min-height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform-style: preserve-3d;
+   position: relative;
+}
+
+
+
+.flashcard.flipped {
+  transform: rotateY(180deg);
+}
+
+.flashcard .front,
+.flashcard .back {
+  position: absolute;
+  width: 100%;
+  backface-visibility: hidden;
+}
+
+.flashcard .back {
+  transform: rotateY(180deg);
+}
+
+.flashcard-controls {
+  margin-top: 1.5rem;
+}
+
+button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+
+/* ===== Quiz Page ===== */
+.quiz-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: #393E46;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+   text-align: center;
+}
+
+
+.quiz-title, .question-text {
+  color: #EEEEEE;
+}
+
+.options-list {
+  list-style: none;
+  padding: 0;
+}
+
+.option-button {
+  display: block;
+  background-color: #EEEEEE;
+  color: #222831;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  font-weight: bold;
+}
+
+.option-button.selected {
+  background-color: #00ADB5;
+  color: #EEEEEE;
+}
+
+/* ===== Review Page ===== */
+.review-container {
+  padding: 30px;
+  max-width: 700px;
+  margin: auto;
+  background-color: #393E46;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.review-header {
+  margin-bottom: 20px;
+}
+
+.review-question {
+  margin-bottom: 25px;
+}
+
+.options-list .option {
+  background-color: #EEEEEE;
+  color: #222831;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 6px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.option input{
+     max-width: 20px;
+
+}
+.option.correct {
+  border: 2px solid #00ADB5;
+}
+
+.option.selected {
+  background-color: #00ADB5;
+  color: #EEEEEE;
+}
+
+.correct-answer {
+  color: #FF6B6B;
+  font-style: italic;
+}
+
+/* ===== Report Page ===== */
+.review-history-container {
+  padding: 30px;
+  color: #EEEEEE;
+}
+
+.quiz-result-list {
+  list-style: none;
+  padding: 0;
+}
+
+.quiz-result-card {
+  background-color: #393E46;
+  border-radius: 10px;
+  padding: 15px;
+  margin: 10px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* ===== Login & Signup ===== */
+.container {
+  max-width: 400px;
+  margin: 50px auto;
+  background-color: #393E46;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.container form div {
+  margin-bottom: 15px;
+}
+
+/* ===== Topic & Mode Select ===== */
+.select-topic-container {
+    text-align: center;
+  padding: 2rem;
+}
+
+.topic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.select-mode{
+    display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+  align-items: center;
+
+}
+
+.topic-box {
+  background-color: #00ADB5;
+  padding: 2rem;
+  font-size: 1.4rem;
+  border-radius: 12px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+
+.topic-box:hover {
+  background-color: #01848b;
+  transform: scale(1.05);
+}
+
+
+/* select Mode */
+.mode-container {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.mode-container h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.select-mode {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.quiz,
+.flashCards {
+  background-color: #00ADB5;
+  padding: 2.5rem 4rem;
+  font-size: 1.8rem;
+  border-radius: 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease-in-out;
+  min-width: 200px;
+  text-align: center;
+}
+
+.quiz:hover,
+.flashCards:hover {
+  background-color: #01848b;
+  transform: scale(1.05);
+}
+
+
+/* leaderboard */
+
+.leaderboard-container {
+  max-width: 800px;
+  margin: 4rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.leaderboard-container h2 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1.1rem;
+}
+
+.leaderboard-table thead {
+  background-color: #f5f5f5;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+  padding: 1rem;
+  border: 1px solid #ddd;
+  color: black;
+}
+
+.leaderboard-table th {
+  font-weight: bold;
+  color: #444;
+}
+
+.leaderboard-table tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.leaderboard-table tbody tr:hover {
+  background-color: #f0f8ff;
+  transition: background-color 0.2s ease;
+}
+
