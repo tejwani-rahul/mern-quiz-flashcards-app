@@ -37,11 +37,9 @@ async function handelUserLogin(req, res) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
 
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({  userId: user._id, role: user.role  }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
-    console.log("Generated Token:", token); // <== ADD THIS
-
 
     return res.status(200).json({
       message: "Login successful",
@@ -54,8 +52,18 @@ async function handelUserLogin(req, res) {
   }
 }
 
+async function getUserInfo(req, res) {
+  try {
+    const user = await User.findById(req.user.userId).select('-password');
+    res.status(200).json(user);
+  } catch (err) {
+    console.error("Fetch User Info Error:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
 
 module.exports = {
   handelUserSignUp,
   handelUserLogin,
+  getUserInfo,
 };

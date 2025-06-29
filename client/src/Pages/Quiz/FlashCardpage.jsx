@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../../api/axiosInstance';
+
 
 
 const FlashCardPage = () => {
@@ -14,7 +15,7 @@ const FlashCardPage = () => {
   useEffect(() => {
     const fetchFlashCards = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/flashcards/flashcards/${topic}`);
+        const res = await axiosInstance.get(`/flashcards/flashcards/${topic}`);
         setCards(res.data);
       } catch (err) {
         console.error("Error fetching flashcards:", err);

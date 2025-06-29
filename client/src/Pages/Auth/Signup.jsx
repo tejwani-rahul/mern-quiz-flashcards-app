@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../../api/axiosInstance';
 
 
 export const Signup = () => {
@@ -27,7 +27,7 @@ export const Signup = () => {
     const { name, email, password } = signupInfo;
 
     try {
-      const response = await axios.post('http://localhost:5000/user/signup', {
+      const response = await axiosInstance.post('/user/signup', {
         name,
         email,
         password,

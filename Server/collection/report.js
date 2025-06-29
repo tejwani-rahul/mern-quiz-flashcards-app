@@ -1,10 +1,11 @@
+// collection/report.js
 const QuizResult = require('../models/report');
-const User = require("../models/user");
 
 async function handleQuizResult(req, res) {
-  const { userId, topic, score, total, reviewItems } = req.body;
+  const { topic, score, total, reviewItems } = req.body;
+  const userId = req.user.userId; // ✅ Comes from authMiddleware
 
-  if (!userId || !topic || score == null || total == null) {
+  if (!topic || score == null || total == null) {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
@@ -14,7 +15,7 @@ async function handleQuizResult(req, res) {
       topic,
       score,
       total,
-      reviewItems
+      reviewItems,
     });
 
     return res.status(201).json({ message: "Result saved", result });
@@ -24,8 +25,9 @@ async function handleQuizResult(req, res) {
   }
 }
 
+// ✅ Updated to use req.user.userId directly
 async function getUserQuizResults(req, res) {
-  const { userId } = req.params;
+  const userId = req.user.userId;
 
   try {
     const results = await QuizResult.find({ userId }).sort({ createdAt: -1 });
@@ -36,9 +38,7 @@ async function getUserQuizResults(req, res) {
   }
 }
 
-
-
 module.exports = {
   handleQuizResult,
   getUserQuizResults,
- };
+};

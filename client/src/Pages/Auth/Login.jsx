@@ -1,5 +1,5 @@
 // src/Pages/Login.jsx
-import axios from 'axios';
+import axiosInstance from '../../api/axiosInstance';
 import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext'; // ✅ import context
@@ -26,7 +26,7 @@ export const Login = () => {
   const { email, password } = loginInfo;
 
   try {
-    const response = await axios.post('http://localhost:5000/user/login', {
+    const response = await axiosInstance.post('/user/login', {
       email,
       password,
     });

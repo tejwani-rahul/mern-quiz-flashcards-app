@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../api/axiosInstance'; // ✅ use your instance
 
 const Leaderboard = () => {
   const [entries, setEntries] = useState([]);
@@ -7,7 +7,7 @@ const Leaderboard = () => {
   useEffect(() => {
     const fetchLeaderboard = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/leaderboard/leaderboard');
+        const res = await axiosInstance.get('/leaderboard/leaderboard'); // ✅ consistent
         setEntries(res.data);
       } catch (err) {
         console.error('Failed to fetch leaderboard:', err);

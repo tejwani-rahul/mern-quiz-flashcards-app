@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
+import axiosInstance from '../../api/axiosInstance';
 
 function QuizPage() {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ function QuizPage() {
   useEffect(() => {
     const fetchingQuiz = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/quiz/questions/${topic}`);
+        const response = await axiosInstance.get(`/quiz/questions/${topic}`);
         setQuestions(response.data);
       } catch (err) {
         console.error("Error fetching questions:", err);
@@ -33,22 +34,17 @@ function QuizPage() {
   };
 
   const submitQuizResult = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const { userId } = jwtDecode(token);
-
-      await axios.post("http://localhost:5000/report/result", {
-        userId,
-        topic,
-        score: scoreRef.current,
-        total: questions.length,
-        reviewItems: reviewRef.current,
-      });
-
-    } catch (err) {
-      console.error("Error saving quiz result:", err);
-    }
-  };
+  try {
+    await axiosInstance.post("/report/result", {
+      topic,
+      score: scoreRef.current,
+      total: questions.length,
+      reviewItems: reviewRef.current,
+    });
+  } catch (err) {
+    console.error("Error saving quiz result:", err);
+  }
+};
 
   const handleNextClick = async () => {
     const currentQuestion = questions[current];

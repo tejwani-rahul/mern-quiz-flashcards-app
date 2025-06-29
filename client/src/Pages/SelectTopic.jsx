@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axiosInstance from '../api/axiosInstance';
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -13,7 +13,7 @@ export const SelectTopic = () => {
     useEffect(()=>{
               const fetchingQuizTopics =async ()=>{
             try{
-            const response = await axios.get('http://localhost:5000/quiz/topics');
+            const response = await axiosInstance.get('/quiz/topics');
             setQuizTopics(response.data)
             console.log("Fetched topics:", response.data);
 

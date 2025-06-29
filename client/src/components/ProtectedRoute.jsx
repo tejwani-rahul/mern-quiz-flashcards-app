@@ -10,7 +10,7 @@ const ProtectedRoute = ({ children }) => {
     checkToken(); // revalidate on navigation
   }, [location.pathname]);
 
-  if (loading) return null; // could show spinner
+  if (loading) return <p>Loading...</p>;  // could show spinner
 
   return isAuthenticated ? children : <Navigate to="/login" replace />;
 };

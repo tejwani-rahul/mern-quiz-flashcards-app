@@ -14,7 +14,7 @@ const leaderboardRouter =require("./routes/leaderboard")
 const app = express();
 const PORT = 5000;
 
-connectMongoDb("mongodb://127.0.0.1:27017/User_Data").then(() =>
+connectMongoDb(process.env.MONGO_URI).then(() =>
   console.log("MongoDB connected")
 );
 

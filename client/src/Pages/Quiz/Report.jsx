@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
+import axiosInstance from '../../api/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 
 const Report = () => {
@@ -10,10 +9,9 @@ const Report = () => {
   useEffect(() => {
     const fetchResults = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const { userId } = jwtDecode(token);
+        
+        const res = await axiosInstance.get('/report/results/me');
 
-        const res = await axios.get(`http://localhost:5000/report/results/${userId}`);
         setResults(res.data);
       } catch (err) {
         console.error("Fetch results error:", err);
