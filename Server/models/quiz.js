@@ -5,6 +5,11 @@ const quizSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  duration:{
+    type: Number, 
+    required: true,
+    default: 60, // default to 60 seconds if not provided
+  },
   questions: [
     {
       question: {

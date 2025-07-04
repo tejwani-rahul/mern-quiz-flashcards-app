@@ -1,9 +1,9 @@
-// collection/report.js
 const QuizResult = require('../models/report');
 
+// This module handles saving quiz results .
 async function handleQuizResult(req, res) {
   const { topic, score, total, reviewItems } = req.body;
-  const userId = req.user.userId; // ✅ Comes from authMiddleware
+  const userId = req.user.userId; // Comes from authMiddleware
 
   if (!topic || score == null || total == null) {
     return res.status(400).json({ error: "Missing required fields" });
@@ -25,7 +25,8 @@ async function handleQuizResult(req, res) {
   }
 }
 
-// ✅ Updated to use req.user.userId directly
+
+// This module fetches user-specific quiz results.
 async function getUserQuizResults(req, res) {
   const userId = req.user.userId;
 

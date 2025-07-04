@@ -7,7 +7,7 @@ function Layout() {
     <>
       <Navbar />
       <main>
-        <Outlet /> {/* 👈 This is where child routes like ReviewQuiz will render */}
+        <Outlet /> {/* This is where child routes like ReviewQuiz will render */}
       </main>
     </>
   );

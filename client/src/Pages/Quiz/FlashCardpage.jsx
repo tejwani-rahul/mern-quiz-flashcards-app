@@ -11,15 +11,19 @@ const FlashCardPage = () => {
   const [current, setCurrent] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchFlashCards = async () => {
       try {
+        setLoading(true);
         const res = await axiosInstance.get(`/flashcards/flashcards/${topic}`);
         setCards(res.data);
       } catch (err) {
         console.error("Error fetching flashcards:", err);
-      }
+      }finally {
+      setLoading(false);
+    }
     };
 
     fetchFlashCards();
@@ -52,15 +56,14 @@ const FlashCardPage = () => {
   };
 
   const handleGoHome = () => {
- navigate('/user/topics');
+ navigate('/topics');
 
 };
 
-
-  if (!cards.length) return <p>Loading flashcards...</p>;
+  if (loading) return <p>Loading Flashcards...</p>;
+  if (!cards.length) return <p>No Flashcards Yet Coming Soon...</p>;
 
   const currentCard = cards[current];
-
   return (
     <div className="flashcard-container">
       <h2 className="flashcard-title">{topic} Flashcards</h2>
@@ -70,7 +73,7 @@ const FlashCardPage = () => {
     <strong>Question:</strong>  {currentCard.front}
   </div>
   <div className="back">
-    <strong>Answer:</strong> {currentCard.back}
+    Answer: {currentCard.back}
   </div>
 </div>
 
@@ -83,9 +86,9 @@ const FlashCardPage = () => {
         </div>
       ) : (
         <div className="flashcard-controls">
-          <p>You’ve finished! Wanna restart or go to main menu?</p>
+          <p>You’ve finished Flashcards! Wanna restart or goto Home?</p>
           <button onClick={handleRestart}>Restart</button>
-          <button onClick={handleGoHome}>Main Menu</button>
+          <button onClick={handleGoHome}>Home</button>
         </div>
       )}
     </div>

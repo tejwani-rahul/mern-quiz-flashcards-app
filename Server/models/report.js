@@ -4,7 +4,7 @@ const quizResultSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: 'users',
       required: true,
     },
     topic: {
@@ -32,7 +32,7 @@ const quizResultSchema = new mongoose.Schema(
         },
         selected: {
           type: String,
-          required: true,
+          // required: true,  //not required to allow for unattempted questions
         },
         correct: {
           type: String,

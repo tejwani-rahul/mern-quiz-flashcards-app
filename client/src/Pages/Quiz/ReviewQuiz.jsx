@@ -14,12 +14,14 @@ function ReviewQuiz() {
   const { reviewItems, from } = state;
 
   const handleBack = () => {
-    if (from === 'review-list') {
-      navigate('/report');
-    } else {
-      navigate('/user/topics');
-    }
-  };
+  if (from === 'review-list') {
+    navigate('/report');
+  } else if (from === 'admin-reports') {
+    navigate('/admin/reports');  
+  } else {
+    navigate('/topics');    
+  }
+};
 
   return (
     <div className="review-container">
@@ -53,8 +55,13 @@ function ReviewQuiz() {
         </div>
       ))}
       <button onClick={handleBack}>
-        {from === 'review-list' ? 'Back to All Quiz Review' : 'Back to Topics'}
-      </button>
+  {from === 'review-list'
+    ? 'Back '
+    : from === 'admin-reports'
+      ? 'Back' 
+      : 'Home'
+  }
+</button>
     </div>
   );
 }

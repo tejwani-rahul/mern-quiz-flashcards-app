@@ -18,8 +18,7 @@ export const Signup = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setSignupInfo((prev) => ({ ...prev, [name]: value }));
-    console.log(name,value)
-  };
+    };
 
 
   const handleSignup = async (e) => {
@@ -41,9 +40,7 @@ export const Signup = () => {
         setTimeout(() => {
           navigate('/login');
         }, 1000);
-      } else {
-        setError('Something went wrong. Please try again.');
-      }
+      } 
     } catch (err) {
       console.error('Signup error:', err);
       setMessage('');

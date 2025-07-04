@@ -1,12 +1,12 @@
-// src/Pages/Login.jsx
 import axiosInstance from '../../api/axiosInstance';
 import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext'; // ✅ import context
+import { AuthContext } from '../../context/AuthContext'; 
+
 
 export const Login = () => {
   const navigate = useNavigate();
-  const { checkToken } = useContext(AuthContext); // ✅ access checkToken
+  const { checkToken } = useContext(AuthContext); 
 
   const [loginInfo, setLoginInfo] = useState({
     email: '',
@@ -33,18 +33,18 @@ export const Login = () => {
 
     if (response.status === 200 || response.status === 201) {
       const token = response.data.token;
-      localStorage.setItem('token', token); // ✅ Save token
+      localStorage.setItem('token', token); 
 
-      await checkToken(); // ✅ wait for context update
-
+      await checkToken(); // Updates context for the rest of app
+         
       setMessage('Login Successful!');
       setError('');
       setLoginInfo({ email: '', password: '' });
 
-      navigate('/user/topics'); // ✅ Navigate after state is updated
-    } else {
-      setMessage('Something went wrong. Try again.');
-    }
+     
+        navigate('/topics');
+      }
+    
   } catch (err) {
     console.error('Login Error:', err);
     setMessage('');
@@ -55,7 +55,6 @@ export const Login = () => {
     }
   }
 };
-
   return (
     <div className='container'>
       <h2>Log In</h2>
