@@ -9,7 +9,7 @@ import SelectTopic from './Pages/SelectTopic';
 import QuizPage from './Pages/Quiz/QuizPage';
 import FlashCardPage from './Pages/Quiz/FlashCardpage';
 import ReviewQuiz from './Pages/Quiz/ReviewQuiz';
-import Layout from './Pages/NavBar/Layout';
+import Layout from './components/Navbar/Layout';
 import Report from './Pages/Quiz/Report';
 import Leaderboard from './Pages/Leaderboard';
 
@@ -18,7 +18,7 @@ import Leaderboard from './Pages/Leaderboard';
 import ProtectedAdminRoute from './components/ProtectedAdminRoute';
 import ManageUsers from './Pages/Admin/ManageUsers';
 import ManageResults from './Pages/Admin/ManageResults';
-import ManageFlashcards from './pages/Admin/ManageFlashcards';  
+import ManageFlashcards from './Pages/Admin/ManageFlashcards';  
 import ManageQuizzes from './Pages/Admin/ManageQuizzes';
 import ManageTopics from './Pages/Admin/ManageTopics';
 

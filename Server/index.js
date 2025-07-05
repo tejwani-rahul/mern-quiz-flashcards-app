@@ -21,7 +21,11 @@ connectMongoDb(process.env.MONGO_URL).then(() =>
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(cors())
+app.use(cors({
+  origin: [ 'http://localhost:5000', `${process.env.Frontend_URL}` ],
+   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+}))
 
 app.use("/user", userRouter);
 app.use("/admin", adminRoutes);
