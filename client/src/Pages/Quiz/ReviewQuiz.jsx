@@ -14,24 +14,34 @@ function ReviewQuiz() {
   const { reviewItems, from } = state;
 
   const handleBack = () => {
-  if (from === 'review-list') {
-    navigate('/report');
-  } else if (from === 'admin-reports') {
-    navigate('/admin/reports');  
-  } else {
-    navigate('/topics');    
-  }
-};
+    if (from === 'review-list') {
+      navigate('/report');
+    } else if (from === 'admin-reports') {
+      navigate('/admin/reports');  
+    } else {
+      navigate('/topics');    
+    }
+  };
 
   return (
     <div className="review-container">
       <div className="review-header">
-  <h2>Review {topic} Quiz</h2>
-  <p className="review-score">Score: {reviewItems.filter(item => item.selected === item.correct).length} / {reviewItems.length}</p>
-</div>
+        <h2>Review {topic} Quiz</h2>
+        <p className="review-score">
+          Score: {reviewItems.filter(item => item.selected === item.correct).length} / {reviewItems.length}
+        </p>
+      </div>
 
       {reviewItems.map((item, idx) => (
         <div key={idx} className="review-question">
+          {item.imageUrl && (
+            <div className="review-question-image">
+              <img 
+                src={item.imageUrl} 
+                alt="Question Related Image" 
+              />
+            </div>
+          )}
           <p className="question-text">{item.question}</p>
           <ul className="options-list">
             {item.options.map((opt, i) => {
@@ -55,13 +65,13 @@ function ReviewQuiz() {
         </div>
       ))}
       <button onClick={handleBack}>
-  {from === 'review-list'
-    ? 'Back '
-    : from === 'admin-reports'
-      ? 'Back' 
-      : 'Home'
-  }
-</button>
+        {from === 'review-list'
+          ? 'Back '
+          : from === 'admin-reports'
+            ? 'Back' 
+            : 'Home'
+        }
+      </button>
     </div>
   );
 }

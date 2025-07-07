@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../api/axiosInstance';
 
 
-
 const FlashCardPage = () => {
   const { topic } = useParams();
   const navigate = useNavigate();
@@ -68,9 +67,11 @@ const FlashCardPage = () => {
     <div className="flashcard-container">
       <h2 className="flashcard-title">{topic} Flashcards</h2>
 
+       <p>Card {current + 1} of {cards.length}</p>
+
       <div className={`flashcard ${isFlipped ? 'flipped' : ''}`} onClick={handleFlip}>
   <div className="front">
-    <strong>Question:</strong>  {currentCard.front}
+    Question: {currentCard.front}
   </div>
   <div className="back">
     Answer: {currentCard.back}

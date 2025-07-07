@@ -68,6 +68,7 @@ function QuizPage() {
       options: currentQuestion.options,
       selected: selectedAnswer,
       correct: currentQuestion.answer,
+      imageUrl: currentQuestion.imageUrl || null,
     });
     if (selectedAnswer === currentQuestion.answer) {
       scoreRef.current += 1;
@@ -87,6 +88,7 @@ function QuizPage() {
         options: q.options,
         selected: null,
         correct: q.answer,
+        imageUrl: q.imageUrl || null,
       });
     }
   }
@@ -122,6 +124,7 @@ function QuizPage() {
       options: currentQuestion.options,
       selected: selectedAnswer,
       correct: currentQuestion.answer,
+      imageUrl: currentQuestion.imageUrl || null,
     });
 
     if (selectedAnswer === currentQuestion.answer) {
@@ -162,13 +165,24 @@ function QuizPage() {
   }
 
   const q = questions[current];
+  const imageUrl = q?.imageUrl || null;
 
   return (
-    <div className="quiz-container">
+    <div className={`quiz-container ${imageUrl ? 'with-image' : 'no-image'}`}>
       <h2>{topic} Quiz</h2>
+      
       <h3>Question {current + 1} of {questions.length}</h3>
       <p className="timer">Time Left: {timeLeft}s</p>
       <p className="question-text">{q.question}</p>
+       
+          {imageUrl ? (
+    <div className="the-setup">
+      <div className="quiz-img">
+        <img
+          src={imageUrl}
+          alt="Question related Image"
+        />
+      </div>
 
       <ul className="options-list">
         {q.options.map((opt, i) => (
@@ -182,6 +196,22 @@ function QuizPage() {
           </li>
         ))}
       </ul>
+    </div>
+  ) : (
+    <ul className="options-list">
+      {q.options.map((opt, i) => (
+        <li key={i}>
+          <button
+            className={`option-button ${selectedAnswer === opt ? 'selected' : ''}`}
+            onClick={() => handleOptionClick(opt)}
+          >
+            {opt}
+          </button>
+        </li>
+      ))}
+    </ul>
+  )}
+
 
       <div className="quiz-footer">
         <button

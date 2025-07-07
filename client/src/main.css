@@ -400,7 +400,7 @@ button.delete:hover {
 
 /* Quiz Styles */
 .quiz-container {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 2rem auto;
   padding: 2rem;
   background: rgba(255, 255, 255, 0.95);
@@ -408,7 +408,19 @@ button.delete:hover {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
   text-align: center;
+  transition: max-width 0.3s ease;
 }
+
+/* Default: no image */
+.quiz-container.no-image {
+  max-width: 800px;
+}
+
+/* If image present: more space for side-by-side */
+.quiz-container.with-image {
+  max-width: 1000px;
+}
+
 .quiz-container p{
 margin: 1.5rem 0;
   color: #374151;
@@ -431,7 +443,40 @@ margin: 1.5rem 0;
   color: #374151;
 }
 
+.the-setup {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap; /* so on small screens, image stacks above options */
+}
+
+.quiz-img {
+  flex: 0 0 auto;
+  width: auto;
+  max-width: 400px;
+  min-width: 200px; /* Minimum height to ensure decent size */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8faff; /* Light background to see image bounds */
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.quiz-img img {
+  display: block;
+  max-width: 100%;
+  max-height: 300px;
+  width: auto;
+  height: auto;
+  object-fit: contain; /* show entire image with no crop */
+  object-position: center;
+  border-radius: 8px;
+}
+
 .options-list {
+   flex: 1 1 300px;
   list-style: none;
   display: flex;
   flex-direction: column;
@@ -572,6 +617,30 @@ margin: 1.5rem 0;
   margin-bottom: 2rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   border: 1px solid #e5e7eb;
+}
+
+.review-question-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  background: #f8faff;
+  border-radius: 8px;
+  padding: 1rem;
+  max-width: 400px;
+  min-height: 200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.review-question-image img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 8px;
 }
 
 .review-question .options-list {
@@ -961,7 +1030,12 @@ form span a {
   .tab-btn {
     padding: 0.75rem 1rem;
   }
-
+  
+  .quiz-img {
+    max-width: 100%;
+    width: 100%;
+  }
+  
   .flashcard {
     height: 250px;
   }

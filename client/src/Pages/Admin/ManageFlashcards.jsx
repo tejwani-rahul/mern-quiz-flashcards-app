@@ -143,6 +143,7 @@ const ManageFlashcards = () => {
               {flashcardsData.cards.length === 0 && <p>No cards yet.</p>}
               {flashcardsData.cards.map((c, idx) => (
                 <div key={idx} className="question-card">
+                  <label>Flashcard: {idx+1}</label>
                   <label>Front:</label>
                   <input
                     value={c.front}
@@ -188,9 +189,7 @@ const ManageFlashcards = () => {
             </>
           )}
 
-          <div>
             <button onClick={handleSubmitFlashcards}>Save Flashcards</button>
-          </div>
         </>
       )}
     </div>

@@ -25,6 +25,10 @@ const quizSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
+      imageUrl:{
+        type: String,
+        default:null,
+      },
     },
   ],
 },{timestamps:true});

@@ -10,7 +10,8 @@ const ManageQuizzes = () => {
   const [newQuestion, setNewQuestion] = useState({
     question: '',
     options: ['', '', '', ''],
-    answer: ''
+    answer: '',
+    imageUrl: ''
   });
   const [activeTab, setActiveTab] = useState('questions');
   const [notFound, setNotFound] = useState(false);
@@ -82,7 +83,7 @@ const ManageQuizzes = () => {
       questions: [...prev.questions, newQuestion]
     }));
 
-    setNewQuestion({ question: '', options: ['', '', '', ''], answer: '' });
+    setNewQuestion({ question: '', options: ['', '', '', ''], answer: '', imageUrl: '' });
   };
 
   const handleExistingQuestionChange = (index, field, value) => {
@@ -140,7 +141,7 @@ const ManageQuizzes = () => {
         questions: finalQuestions
       }));
       setOriginalTopic(topic);
-      setNewQuestion({ question: '', options: ['', '', '', ''], answer: '' });
+      setNewQuestion({ question: '', options: ['', '', '', ''], answer: '', imageUrl: '' });
     } catch (err) {
       console.error('Save Quiz Error:', err);
     }
@@ -180,7 +181,7 @@ const ManageQuizzes = () => {
               {quizData.questions.length === 0 && <p>No questions yet.</p>}
               {quizData.questions.map((q, idx) => (
                 <div key={idx} className="question-card">
-                  <label>Question:</label>
+                  <label>Question: {idx+1}</label>
                   <input
                     value={q.question}
                     onChange={(e) => handleExistingQuestionChange(idx, 'question', e.target.value)}
@@ -201,7 +202,16 @@ const ManageQuizzes = () => {
                     onChange={(e) => handleExistingQuestionChange(idx, 'answer', e.target.value)}
                   />
 
-                  <button className="delete" onClick={() => handleDeleteQuestion(idx)}>Delete Question</button>
+                  <label>Image URL:</label>
+                  <input
+                    value={q.imageUrl || ''}
+                    placeholder="https://example.com/image.png"
+                    onChange={(e) => handleExistingQuestionChange(idx, 'imageUrl', e.target.value)}
+                  />
+
+                  <button className="delete" onClick={() => handleDeleteQuestion(idx)}>
+                    Delete Question
+                  </button>
                 </div>
               ))}
 
@@ -225,6 +235,12 @@ const ManageQuizzes = () => {
                 placeholder="Correct Answer"
                 value={newQuestion.answer}
                 onChange={(e) => handleNewQuestionChange('answer', e.target.value)}
+              />
+
+              <input
+                placeholder="Image URL (optional)"
+                value={newQuestion.imageUrl}
+                onChange={(e) => handleNewQuestionChange('imageUrl', e.target.value)}
               />
 
               <button onClick={addQuestionToQuiz}>Add New Question</button>
@@ -255,9 +271,7 @@ const ManageQuizzes = () => {
             </>
           )}
 
-          <div>
-            <button onClick={handleSaveQuiz}>Save Quiz</button>
-          </div>
+            <button onClick={handleSaveQuiz}>Save Quiz</button>    
         </>
       )}
     </div>
