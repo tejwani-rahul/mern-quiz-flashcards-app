@@ -15,10 +15,13 @@
 
 ## 📑 Table of Contents
 
+
+
 - [Overview](#-overview)
 - [Features](#-features)
+- [Tech Stack & Tools](#%EF%B8%8F-tech-stack--tools)
 - [Getting Started](#-getting-started)
-  - [Prerequisites](#-prerequisites)
+  - [Prerequisites](#%EF%B8%8F-prerequisites)
   - [Installation](#installation)
   - [Running the Application](#running-the-application)
 - [Demo Images](#-demo-images)
@@ -26,7 +29,7 @@
   - [Admin Dashboard](-admin-dashboard)
 - [Contributing](#-contributing)
 - [License](#-license)
-- [Author](#author)
+- [Contact](#contact)
 
 ---
 
@@ -68,9 +71,44 @@ This project empowers developers to rapidly build, customize, and extend quiz-ba
 
 ---
 
+## 🛠️ Tech Stack & Tools
+
+**Frontend**
+- React.js, React Router, React Hooks, Context API
+- Vite for lightning-fast builds & hot reload
+
+**Backend**
+- Node.js, Express.js, RESTful API architecture
+
+**Database**
+- MongoDB with Mongoose for schema validation
+
+**Authentication & Security**
+- JWT (JSON Web Tokens)
+- bcrypt for hashing
+
+**File & Image Handling**
+- Cloudinary for image storage & CDN delivery
+
+**HTTP Requests**
+- Axios
+
+**Styling**
+- Plain Global CSS (using a single global stylesheet for all components)
+
+**Version Control**
+- Git & GitHub
+
+**Deployment**
+- Vercel for full-stack deployment
+
+---
+
 ## 🚀 Getting Started
 
+
 ### 🛠️ Prerequisites
+
 
 Make sure you have the following installed:
 
@@ -108,11 +146,12 @@ npm install
 MONGODB_URI=mongodb://localhost:27017/quiz-app
 JWT_SECRET=your-secret-key-here
 PORT=5000
+Frontend_URL=your-fronted-url
 ```
 
 **Frontend** - Create a `.env` file in the `client` directory:
 ```env
-VITE_API_URL=http://localhost:5000
+VITE_REACT_APP_BACKEND_BASEURL=your-backend-url
 ```
 
 ### Running the Application
@@ -197,9 +236,9 @@ The application will be available at:
 Contributions are welcome! Please follow these steps:
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+2. Create a feature branch (`git checkout -b feature/your-feature`)
 3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
+4. Push to the branch (`git push origin feature/your-feature`)
 5. Open a Pull Request
 
 ### Development Guidelines
@@ -220,7 +259,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🙏 Acknowledgments
 
 - Thanks to the MERN stack community for excellent documentation
-- Inspiration from modern e-learning platforms
+- Inspiration from modern ed-tech platforms
 - Contributors who help improve this project
 - Open source libraries that make this project possible
 
@@ -237,7 +276,9 @@ If you encounter any issues or have questions, please:
 
 ---
 
-## 📞 Contact
+
+## Contact
+
 
 For questions or collaboration opportunities, feel free to reach out!
 
