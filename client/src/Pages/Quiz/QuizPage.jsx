@@ -7,7 +7,7 @@ function QuizPage() {
   const { topic } = useParams();
 
   const [questions, setQuestions] = useState([]);
-  const [duration, setDuration] = useState(60); // Will come from DB
+  const [duration, setDuration] = useState(60); // fallback
   const [timeLeft, setTimeLeft] = useState(60);
   const [current, setCurrent] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -17,27 +17,43 @@ function QuizPage() {
   const [score, setScore] = useState(0);
   const scoreRef = useRef(0);
   const reviewRef = useRef([]);
+  const answeredQuestions = useRef(new Set());
   const timerRef = useRef(null);
 
-  // Fetch quiz questions & duration
+  const handleAutoSubmit = useRef(null);
+
+  // ✅ Fetch quiz questions & duration
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
         setLoading(true);
         const response = await axiosInstance.get(`/quiz/questions/${topic}`);
         setQuestions(response.data.questions);
-        setDuration(response.data.duration || 60);
-        setTimeLeft(response.data.duration || 60);
+        const quizDuration = response.data.duration || 60;
+        setDuration(quizDuration);
+        setTimeLeft(quizDuration);
       } catch (err) {
         console.error('Error fetching questions:', err);
-      }finally {
+      } finally {
         setLoading(false);
       }
     };
     fetchQuiz();
   }, [topic]);
 
-  // Start countdown timer
+  // ✅ Always use latest auto-submit logic
+  useEffect(() => {
+    handleAutoSubmit.current = async () => {
+      if (selectedAnswer !== null) {
+        processCurrentQuestion();
+      }
+      addUnansweredQuestions();
+      await submitQuizResult();
+      setShowResult(true);
+    };
+  }, [selectedAnswer, questions]);
+
+  // ✅ Start countdown timer
   useEffect(() => {
     if (!questions.length || showResult) return;
 
@@ -45,7 +61,7 @@ function QuizPage() {
       setTimeLeft((prev) => {
         if (prev <= 1) {
           clearInterval(timerRef.current);
-          handleAutoSubmit();
+          handleAutoSubmit.current();
           return 0;
         }
         return prev - 1;
@@ -55,45 +71,48 @@ function QuizPage() {
     return () => clearInterval(timerRef.current);
   }, [questions, showResult]);
 
-  const buildFullReview = () => {
-  const currentQuestion = questions[current];
+  // ✅ Process current question safely
+  const processCurrentQuestion = () => {
+    const currentQuestion = questions[current];
+    if (!currentQuestion) return;
 
-  // Only push if not already in review
-  if (
-    currentQuestion &&
-    !reviewRef.current.some(r => r.question === currentQuestion.question)
-  ) {
-    reviewRef.current.push({
-      question: currentQuestion.question,
-      options: currentQuestion.options,
-      selected: selectedAnswer,
-      correct: currentQuestion.answer,
-      imageUrl: currentQuestion.imageUrl || null,
-    });
-    if (selectedAnswer === currentQuestion.answer) {
-      scoreRef.current += 1;
-      setScore(prev => prev + 1);
-    }
-  }
+    const questionId = currentQuestion.question; // Use an ID if you have one
 
-  // OW rebuild answered list after pushing current
-  const answeredQuestions = reviewRef.current.map(r => r.question);
-
-  // Add any truly unanswered remaining questions
-  for (let i = 0; i < questions.length; i++) {
-    const q = questions[i];
-    if (!answeredQuestions.includes(q.question)) {
+    if (!answeredQuestions.current.has(questionId)) {
       reviewRef.current.push({
-        question: q.question,
-        options: q.options,
-        selected: null,
-        correct: q.answer,
-        imageUrl: q.imageUrl || null,
+        question: currentQuestion.question,
+        options: currentQuestion.options,
+        selected: selectedAnswer,
+        correct: currentQuestion.answer,
+        imageUrl: currentQuestion.imageUrl || null,
       });
-    }
-  }
-};
 
+      if (selectedAnswer === currentQuestion.answer) {
+        scoreRef.current += 1;
+        setScore((prev) => prev + 1);
+      }
+
+      answeredQuestions.current.add(questionId);
+    }
+  };
+
+  // ✅ Add any truly unanswered questions
+  const addUnansweredQuestions = () => {
+    const processed = new Set(reviewRef.current.map((r) => r.question));
+    for (const q of questions) {
+      if (!processed.has(q.question)) {
+        reviewRef.current.push({
+          question: q.question,
+          options: q.options,
+          selected: null,
+          correct: q.answer,
+          imageUrl: q.imageUrl || null,
+        });
+      }
+    }
+  };
+
+  // ✅ Submit final quiz result
   const submitQuizResult = async () => {
     try {
       await axiosInstance.post("/report/result", {
@@ -107,38 +126,22 @@ function QuizPage() {
     }
   };
 
-  const handleAutoSubmit = async () => {
-    buildFullReview();
-    await submitQuizResult();
-    setShowResult(true);
+  // ✅ Handle next button
+  const handleNextClick = async () => {
+    processCurrentQuestion();
+
+    if (current + 1 < questions.length) {
+      setCurrent((prev) => prev + 1);
+      setSelectedAnswer(null);
+    } else {
+      addUnansweredQuestions();
+      await submitQuizResult();
+      setShowResult(true);
+    }
   };
 
   const handleOptionClick = (option) => {
     setSelectedAnswer(option);
-  };
-
-  const handleNextClick = async () => {
-    const currentQuestion = questions[current];
-    reviewRef.current.push({
-      question: currentQuestion.question,
-      options: currentQuestion.options,
-      selected: selectedAnswer,
-      correct: currentQuestion.answer,
-      imageUrl: currentQuestion.imageUrl || null,
-    });
-
-    if (selectedAnswer === currentQuestion.answer) {
-      setScore(prev => prev + 1);
-      scoreRef.current += 1;
-    }
-
-    if (current + 1 < questions.length) {
-      setCurrent(prev => prev + 1);
-      setSelectedAnswer(null);
-    } else {
-      await submitQuizResult();
-      setShowResult(true);
-    }
   };
 
   const handleReview = () => {
@@ -146,6 +149,9 @@ function QuizPage() {
       state: { reviewItems: reviewRef.current, from: 'quiz-page' },
     });
   };
+
+  if (loading) return <p>Loading quiz...</p>;
+  if (!questions.length || !questions[current]) return <p>No Quiz Yet — Coming Soon!</p>;
 
   if (showResult) {
     return (
@@ -158,60 +164,48 @@ function QuizPage() {
     );
   }
 
-  if (loading) {
-    return <p>Loading quiz...</p>;}
-  if (!questions.length || !questions[current]) {
-    return <p>No Quiz Yet — Coming Soon!</p>;
-  }
-
   const q = questions[current];
   const imageUrl = q?.imageUrl || null;
 
   return (
     <div className={`quiz-container ${imageUrl ? 'with-image' : 'no-image'}`}>
       <h2>{topic} Quiz</h2>
-      
       <h3>Question {current + 1} of {questions.length}</h3>
       <p className="timer">Time Left: {timeLeft}s</p>
       <p className="question-text">{q.question}</p>
-       
-          {imageUrl ? (
-    <div className="the-setup">
-      <div className="quiz-img">
-        <img
-          src={imageUrl}
-          alt="Question related Image"
-        />
-      </div>
 
-      <ul className="options-list">
-        {q.options.map((opt, i) => (
-          <li key={i}>
-            <button
-              className={`option-button ${selectedAnswer === opt ? 'selected' : ''}`}
-              onClick={() => handleOptionClick(opt)}
-            >
-              {opt}
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
-  ) : (
-    <ul className="options-list">
-      {q.options.map((opt, i) => (
-        <li key={i}>
-          <button
-            className={`option-button ${selectedAnswer === opt ? 'selected' : ''}`}
-            onClick={() => handleOptionClick(opt)}
-          >
-            {opt}
-          </button>
-        </li>
-      ))}
-    </ul>
-  )}
-
+      {imageUrl ? (
+        <div className="the-setup">
+          <div className="quiz-img">
+            <img src={imageUrl} alt="Question related" />
+          </div>
+          <ul className="options-list">
+            {q.options.map((opt, i) => (
+              <li key={i}>
+                <button
+                  className={`option-button ${selectedAnswer === opt ? 'selected' : ''}`}
+                  onClick={() => handleOptionClick(opt)}
+                >
+                  {opt}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <ul className="options-list">
+          {q.options.map((opt, i) => (
+            <li key={i}>
+              <button
+                className={`option-button ${selectedAnswer === opt ? 'selected' : ''}`}
+                onClick={() => handleOptionClick(opt)}
+              >
+                {opt}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
 
       <div className="quiz-footer">
         <button
